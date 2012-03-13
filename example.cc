@@ -26,6 +26,12 @@ BEGIN_TEST()
 	EXPECT_INT(1+1, 1);
 
 	// Passes
+	EXPECT_FLOAT_IN_RANGE(1.0f/2.0f, 0.25f, 0.75f);
+
+	// Fails
+	EXPECT_FLOAT_IN_RANGE(1.0f/2.0f, -2.0f, -1.0f);
+
+	// Passes
 	EXPECT_EXCEPTION(throw std::runtime_error("test"), std::exception);
 
 	// Fails

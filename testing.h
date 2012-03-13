@@ -63,7 +63,7 @@
 		} \
 	}
 
-#define EXPECT_VALUE(expr, type, expected) { \
+#define EXPECT_VALUE(type, expr, expected) { \
 		type result = (expr); \
 		if (result != expected) { \
 			std::cerr << FAILED #expr " returned " << result << ", while expected " << expected << std::endl; ++ret; \
@@ -72,7 +72,17 @@
 		} \
 	}
 
-#define EXPECT_INT(expr, expected) EXPECT_VALUE(expr, int, expected)
+#define EXPECT_VALUE_IN_RANGE(type, expr, from, to) { \
+		type result = (expr); \
+		if (from <= result && result <= to) { \
+			std::cerr << PASSED #expr " is in range [" << from << ", " << to << "]" << std::endl; \
+		} else { \
+			std::cerr << FAILED #expr " returned " << result << ", which is out of expected range [" << from << ", " << to << "]" << std::endl; ++ret; \
+		} \
+	}
+
+#define EXPECT_INT(expr, expected) EXPECT_VALUE(int, expr, expected)
+#define EXPECT_FLOAT_IN_RANGE(expr, from, to) EXPECT_VALUE_IN_RANGE(float, expr, from, to)
 
 #define EXPECT_EXCEPTION(expr, exception) { \
 		bool correct_catch = false; \
