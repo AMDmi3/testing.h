@@ -1,14 +1,14 @@
-                              testing.h
-                             ===========
+                               testing.h
+                              ===========
 
-This is a very small header-only library to simplify writing C++
-unit tests. It is simple, doesn't have any external dependencies,
-provides nicely coloured and verbose output and a basic set of
-invariant checks (including testing of exception throwing) to make
-test writing faster and cleaner.
+This is a very small header-only library to simplify writing C++ unit
+tests.  It is simple, doesn't have any external dependencies, provides
+nicely coloured and verbose output and a basic set of invariant checks
+(including testing of exception throwing) to make test writing faster
+and cleaner.
 
-To use this in your project, you may just grab testing.h and add
-it to your source tree.
+To use this in your project, you may just grab testing.h and add it to
+your source tree.
 
 Short example
 =============
