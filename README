@@ -1,0 +1,38 @@
+                              testing.h
+                             ===========
+
+This is a very small header-only library to simplify writing C++
+unit tests. It is simple, doesn't have any external dependencies,
+provides nicely coloured and verbose output and a basic set of
+invariant checks (including testing of exception throwing) to make
+test writing faster and cleaner.
+
+To use this in your project, you may just grab testing.h and add
+it to your source tree.
+
+Short example
+=============
+
+  #include "testing.h"
+
+  BEGIN_TEST()
+      EXPECT_TRUE(1 == 1);
+      EXPECT_STRING(MyFunctionReturningString(), "expected output");
+      EXPECT_EXCEPTION(MyFunctionWhichShouldThrow(), std::runtime_error);
+  END_TEST()
+
+Longer example
+==============
+
+  See example.cc, which may be compiled and ran with simply calling
+  `make'.
+
+License
+=======
+
+  2-clause BSD, see source file.
+
+Author
+======
+
+  Dmitry Marakasov <amdmi3@amdmi3.ru>
