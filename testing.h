@@ -44,14 +44,15 @@
 #endif
 
 // Test begin/end
-#define BEGIN_TEST() int main() { int ret = 0;
+#define BEGIN_TEST() int main() { int num_failing_tests_ = 0;
 
-#define END_TEST() if (ret > 0) std::cerr << ret << " failures" << std::endl; return ret; }
+#define END_TEST() if (num_failing_tests_ > 0) std::cerr << num_failing_tests_ << " failures" << std::endl; return num_failing_tests_; }
 
 // Equality checks
 #define EXPECT_TRUE(expr) { \
 		if (!(expr)) { \
-			std::cerr << FAILED #expr << std::endl; ++ret; \
+			std::cerr << FAILED #expr << std::endl; \
+			++num_failing_tests_; \
 		} else { \
 			std::cerr << PASSED #expr << std::endl; \
 		} \
@@ -60,7 +61,8 @@
 #define EXPECT_STRING(expr, expected) { \
 		std::string result = (expr); \
 		if (result != expected) { \
-			std::cerr << FAILED #expr " returned \"" << result << "\", while expected \"" << expected << "\"" << std::endl; ++ret; \
+			std::cerr << FAILED #expr " returned \"" << result << "\", while expected \"" << expected << "\"" << std::endl; \
+			++num_failing_tests_; \
 		} else { \
 			std::cerr << PASSED #expr " == \"" << expected << "\"" << std::endl; \
 		} \
@@ -69,7 +71,8 @@
 #define EXPECT_VALUE(type, expr, expected) { \
 		type result = (expr); \
 		if (result != expected) { \
-			std::cerr << FAILED #expr " returned " << result << ", while expected " << expected << std::endl; ++ret; \
+			std::cerr << FAILED #expr " returned " << result << ", while expected " << expected << std::endl; \
+			++num_failing_tests_; \
 		} else { \
 			std::cerr << PASSED #expr " == " << expected << std::endl; \
 		} \
@@ -81,7 +84,8 @@
 		if (from <= result && result <= to) { \
 			std::cerr << PASSED #expr " returned " << result << ", which is in range [" << from << ", " << to << "] as expected" << std::endl; \
 		} else { \
-			std::cerr << FAILED #expr " returned " << result << ", which is out of expected range [" << from << ", " << to << "]" << std::endl; ++ret; \
+			std::cerr << FAILED #expr " returned " << result << ", which is out of expected range [" << from << ", " << to << "]" << std::endl; \
+			++num_failing_tests_; \
 		} \
 	}
 
@@ -101,7 +105,8 @@
 		if (correct_catch) { \
 			std::cerr << PASSED #expr " has thrown " #exception << " as expected " << std::endl; \
 		} else { \
-			std::cerr << FAILED #expr " hasn't thrown expected " #exception << std::endl; ++ret; \
+			std::cerr << FAILED #expr " hasn't thrown expected " #exception << std::endl; \
+			++num_failing_tests_; \
 		} \
 	}
 
@@ -117,9 +122,11 @@
 			had_exception = true; \
 		} \
 		if (had_exception && what) { \
-			std::cerr << FAILED #expr << " has thrown unexpected exception derived from std::exception, what() returned \"" << what << "\"" << std::endl; ++ret; \
+			std::cerr << FAILED #expr << " has thrown unexpected exception derived from std::exception, what() returned \"" << what << "\"" << std::endl; \
+			++num_failing_tests_; \
 		} else if (had_exception) { \
-			std::cerr << FAILED #expr << " has thrown unexpected exception not derived from std::exception" << std::endl; ++ret; \
+			std::cerr << FAILED #expr << " has thrown unexpected exception not derived from std::exception" << std::endl; \
+			++num_failing_tests_; \
 		} else { \
 			std::cerr << PASSED #expr << " hasn't thrown any exceptions as expected" << std::endl; \
 		} \
