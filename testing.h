@@ -75,7 +75,7 @@
 #define EXPECT_VALUE_IN_RANGE(type, expr, from, to) { \
 		type result = (expr); \
 		if (from <= result && result <= to) { \
-			std::cerr << PASSED #expr " is in range [" << from << ", " << to << "]" << std::endl; \
+			std::cerr << PASSED #expr " returned " << result << ", which is in range [" << from << ", " << to << "] as expected" << std::endl; \
 		} else { \
 			std::cerr << FAILED #expr " returned " << result << ", which is out of expected range [" << from << ", " << to << "]" << std::endl; ++ret; \
 		} \
