@@ -8,16 +8,22 @@ BEGIN_TEST()
 	std::string test = "bbb";
 
 	// Passes
-	EXPECT_STRING(test, "bbb");
-
-	// Fails and prints unmatched string
-	EXPECT_STRING(test, "aaa");
-
-	// Passes
 	EXPECT_TRUE(a == b);
 
 	// Fails
-	EXPECT_TRUE(a != b);
+	EXPECT_TRUE(a + 1 == a);
+
+	// Passes
+	EXPECT_STRING(test, "bbb");
+
+	// Fails
+	EXPECT_STRING(test, "aaa");
+
+	// Passes
+	EXPECT_INT(1+2, 3);
+
+	// Fails
+	EXPECT_INT(1+1, 1);
 
 	// Passes
 	EXPECT_EXCEPTION(throw std::runtime_error("test"), std::exception);

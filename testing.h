@@ -46,6 +46,14 @@
 
 #define END_TEST() if (ret > 0) std::cerr << ret << " failures" << std::endl; return ret; }
 
+#define EXPECT_TRUE(expr) { \
+		if (!(expr)) { \
+			std::cerr << FAILED #expr << std::endl; ++ret; \
+		} else { \
+			std::cerr << PASSED #expr << std::endl; \
+		} \
+	}
+
 #define EXPECT_STRING(expr, expected) { \
 		std::string result = (expr); \
 		if (result != expected) { \
@@ -55,13 +63,16 @@
 		} \
 	}
 
-#define EXPECT_TRUE(expr) { \
-		if (!(expr)) { \
-			std::cerr << FAILED #expr << std::endl; ++ret; \
+#define EXPECT_VALUE(expr, type, expected) { \
+		type result = (expr); \
+		if (result != expected) { \
+			std::cerr << FAILED #expr " returned " << result << ", while expected " << expected << std::endl; ++ret; \
 		} else { \
-			std::cerr << PASSED #expr << std::endl; \
+			std::cerr << PASSED #expr " == " << expected << std::endl; \
 		} \
 	}
+
+#define EXPECT_INT(expr, expected) EXPECT_VALUE(expr, int, expected)
 
 #define EXPECT_EXCEPTION(expr, exception) { \
 		bool correct_catch = false; \
@@ -74,7 +85,7 @@
 		if (correct_catch) { \
 			std::cerr << PASSED "correctly cought " #exception << std::endl; \
 		} else { \
-			std::cerr << FAILED "expected " #exception << " was not cought" << std::endl; ++ret; \
+			std::cerr << FAILED "expected " #exception << " was not thrown" << std::endl; ++ret; \
 		} \
 	}
 
