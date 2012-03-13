@@ -74,7 +74,7 @@
 		if (correct_catch) { \
 			std::cerr << PASSED "correctly cought " #exception << std::endl; \
 		} else { \
-			std::cerr << FAILED "didn't catch expected " #exception << std::endl; ++ret; \
+			std::cerr << FAILED "expected " #exception << " was not cought" << std::endl; ++ret; \
 		} \
 	}
 
@@ -90,10 +90,10 @@
 			had_exception = true; \
 		} \
 		if (had_exception && what) { \
-			std::cerr << FAILED "unexpected exception thrown: " << what << std::endl; ++ret; \
+			std::cerr << FAILED "unexpected exception thrown, cought as std::exception; what(): " << what << std::endl; ++ret; \
 		} else if (had_exception) { \
 			std::cerr << FAILED "unexpected unknown exception thrown" << std::endl; ++ret; \
 		} else { \
-			std::cerr << PASSED "no unexpected exceptinos thrown" << std::endl; \
+			std::cerr << PASSED "no unexpected exceptions thrown" << std::endl; \
 		} \
 	}
