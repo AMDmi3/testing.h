@@ -30,7 +30,9 @@
 #include <iostream>
 #include <exception>
 
-#define TEST_COLOR
+#ifndef NO_TEST_COLOR
+#	define TEST_COLOR
+#endif
 
 #ifdef TEST_COLOR
 #	define PASSED "\e[0;32mPASSED:\e[0m "
