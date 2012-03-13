@@ -2,6 +2,9 @@
  * Copyright (c) 2011-2012 Dmitry Marakasov <amdmi3@amdmi3.ru>
  * All rights reserved.
  *
+ * See https://github.com/AMDmi3/testing.h for updates, bug reports,
+ * forks etc.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
