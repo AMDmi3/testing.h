@@ -93,9 +93,9 @@
 		} catch (...) { \
 		} \
 		if (correct_catch) { \
-			std::cerr << PASSED "correctly cought " #exception << std::endl; \
+			std::cerr << PASSED #expr " has thrown " #exception << " as expected " << std::endl; \
 		} else { \
-			std::cerr << FAILED "expected " #exception << " was not thrown" << std::endl; ++ret; \
+			std::cerr << FAILED #expr " hasn't thrown expected " #exception << std::endl; ++ret; \
 		} \
 	}
 
@@ -111,10 +111,10 @@
 			had_exception = true; \
 		} \
 		if (had_exception && what) { \
-			std::cerr << FAILED "unexpected exception thrown, cought as std::exception; what(): " << what << std::endl; ++ret; \
+			std::cerr << FAILED #expr << " has thrown unexpected exception derived from std::exception, what() returned \"" << what << "\"" << std::endl; ++ret; \
 		} else if (had_exception) { \
-			std::cerr << FAILED "unexpected unknown exception thrown" << std::endl; ++ret; \
+			std::cerr << FAILED #expr << " has thrown unexpected exception not derived from std::exception" << std::endl; ++ret; \
 		} else { \
-			std::cerr << PASSED "no unexpected exceptions thrown" << std::endl; \
+			std::cerr << PASSED #expr << " hasn't thrown any exceptions as expected" << std::endl; \
 		} \
 	}
