@@ -30,6 +30,7 @@
 #include <iostream>
 #include <exception>
 
+// Define NO_TEST_COLOR before including testing.h to disable colors
 #ifndef NO_TEST_COLOR
 #	define TEST_COLOR
 #endif
@@ -42,10 +43,12 @@
 #	define FAILED "FAILED: "
 #endif
 
+// Test begin/end
 #define BEGIN_TEST() int main() { int ret = 0;
 
 #define END_TEST() if (ret > 0) std::cerr << ret << " failures" << std::endl; return ret; }
 
+// Equality checks
 #define EXPECT_TRUE(expr) { \
 		if (!(expr)) { \
 			std::cerr << FAILED #expr << std::endl; ++ret; \
@@ -72,6 +75,7 @@
 		} \
 	}
 
+// Range checks
 #define EXPECT_VALUE_IN_RANGE(type, expr, from, to) { \
 		type result = (expr); \
 		if (from <= result && result <= to) { \
@@ -81,9 +85,11 @@
 		} \
 	}
 
+// Shortcuts for above; feel free to ask to add more
 #define EXPECT_INT(expr, expected) EXPECT_VALUE(int, expr, expected)
 #define EXPECT_FLOAT_IN_RANGE(expr, from, to) EXPECT_VALUE_IN_RANGE(float, expr, from, to)
 
+// Exception checks
 #define EXPECT_EXCEPTION(expr, exception) { \
 		bool correct_catch = false; \
 		try { \
