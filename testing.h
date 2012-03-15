@@ -27,6 +27,9 @@
  * SUCH DAMAGE.
  */
 
+#ifndef TESTING_H_INCLUDED
+#define TESTING_H_INCLUDED
+
 #include <iostream>
 #include <exception>
 
@@ -131,3 +134,5 @@
 			std::cerr << PASSED #expr << " hasn't thrown any exceptions as expected" << std::endl; \
 		} \
 	}
+
+#endif // TESTING_H_INCLUDED
