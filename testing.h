@@ -71,7 +71,7 @@
 		} \
 	}
 
-#define EXPECT_VALUE(type, expr, expected) { \
+#define EXPECT_EQUAL(type, expr, expected) { \
 		type result = (expr); \
 		if (result != expected) { \
 			std::cerr << FAILED #expr " returned " << result << ", while expected " << expected << std::endl; \
@@ -93,7 +93,7 @@
 	}
 
 // Shortcuts for above; feel free to ask to add more
-#define EXPECT_INT(expr, expected) EXPECT_VALUE(int, expr, expected)
+#define EXPECT_INT(expr, expected) EXPECT_EQUAL(int, expr, expected)
 #define EXPECT_FLOAT_IN_RANGE(expr, from, to) EXPECT_VALUE_IN_RANGE(float, expr, from, to)
 
 // Exception checks
