@@ -47,7 +47,7 @@
 #endif
 
 // Test begin/end
-#define BEGIN_TEST() int main() { int num_failing_tests_ = 0;
+#define BEGIN_TEST(...) int main(__VA_ARGS__) { int num_failing_tests_ = 0;
 
 #define END_TEST() if (num_failing_tests_ > 0) std::cerr << num_failing_tests_ << " failures" << std::endl; return num_failing_tests_; }
 
