@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012 Dmitry Marakasov <amdmi3@amdmi3.ru>
+ * Copyright (c) 2011-2013 Dmitry Marakasov <amdmi3@amdmi3.ru>
  * All rights reserved.
  *
  * See https://github.com/AMDmi3/testing.h for updates, bug reports,
