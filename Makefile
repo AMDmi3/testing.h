@@ -1,5 +1,6 @@
 CXX?=		g++
 CXXFLAGS?=	#empty
+CXXFLAGS+=	-Wall -Wextra -pedantic -Werror
 
 all: example
 	./example
