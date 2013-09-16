@@ -38,9 +38,11 @@
 #	define TEST_COLOR
 #endif
 
+#define TEST_ESCAPE "\033"
+
 #ifdef TEST_COLOR
-#	define PASSED "\e[0;32mPASSED:\e[0m "
-#	define FAILED "\e[1;31mFAILED:\e[0m "
+#	define PASSED TEST_ESCAPE "[0;32mPASSED:" TEST_ESCAPE "[0m "
+#	define FAILED TEST_ESCAPE "[1;31mFAILED:" TEST_ESCAPE "[0m "
 #else
 #	define PASSED "PASSED: "
 #	define FAILED "FAILED: "
