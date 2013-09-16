@@ -6,3 +6,6 @@ all: example
 
 example: example.cc testing.h
 	${CXX} ${CXXFLAGS} example.cc -o example
+
+clean:
+	rm -f example
