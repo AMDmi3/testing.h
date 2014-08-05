@@ -49,9 +49,22 @@
 #endif
 
 // Test begin/end
-#define BEGIN_TEST(...) int main(__VA_ARGS__) { int num_failing_tests_ = 0;
+#define BEGIN_TEST(...) \
+	int main(__VA_ARGS__) { \
+		int num_failing_tests_ = 0; \
+		try {
 
-#define END_TEST() if (num_failing_tests_ > 0) std::cerr << num_failing_tests_ << " failures" << std::endl; return num_failing_tests_; }
+#define END_TEST() \
+		} catch(std::exception& e) { \
+			std::cerr << "exception occured during the test: " << e.what() << std::endl; \
+			num_failing_tests_++; \
+		} catch (...) { \
+			std::cerr << "unknown exception occured during the test" << std::endl; \
+			num_failing_tests_++; \
+		} \
+		if (num_failing_tests_ > 0) \
+			std::cerr << num_failing_tests_ << " failures" << std::endl; return num_failing_tests_; \
+	}
 
 // Equality checks
 #define EXPECT_TRUE(expr) { \
