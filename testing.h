@@ -54,6 +54,13 @@
 		int num_failing_tests_ = 0; \
 		try {
 
+#define BEGIN_EXTRA_EXCEPTION(exception) \
+		} catch(exception) {
+
+#define END_EXTRA_EXCEPTION() \
+			num_failing_tests_++; \
+		}
+
 #define END_TEST() \
 		} catch(std::exception& e) { \
 			std::cerr << "exception occured during the test: " << e.what() << std::endl; \
