@@ -43,11 +43,13 @@
 #define TEST_ESCAPE "\033"
 
 #ifdef TEST_COLOR
-#	define PASSED TEST_ESCAPE "[0;32mPASSED:" TEST_ESCAPE "[0m "
-#	define FAILED TEST_ESCAPE "[1;31mFAILED:" TEST_ESCAPE "[0m "
+#	define  PASSED TEST_ESCAPE "[0;32m PASSED:" TEST_ESCAPE "[0m "
+#	define WARNING TEST_ESCAPE "[1;33mWARNING:" TEST_ESCAPE "[0m "
+#	define  FAILED TEST_ESCAPE "[1;31m FAILED:" TEST_ESCAPE "[0m "
 #else
-#	define PASSED "PASSED: "
-#	define FAILED "FAILED: "
+#	define  PASSED " PASSED: "
+#	define WARNING "WARNING: "
+#	define  FAILED " FAILED: "
 #endif
 
 template<class T>
@@ -74,40 +76,40 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 
 #define END_TEST() \
 		} catch(std::exception& e) { \
+			num_failing_tests_++; \
 			std::cerr << "unexpected exception was thrown during the test: " << e.what() << std::endl; \
-			num_failing_tests_++; \
 		} catch (...) { \
-			std::cerr << "unexpected exception was thrown during the test" << std::endl; \
 			num_failing_tests_++; \
+			std::cerr << "unexpected exception was thrown during the test" << std::endl; \
 		} \
 		if (num_failing_tests_ > 0) \
 			std::cerr << num_failing_tests_ << " failures" << std::endl; return num_failing_tests_; \
 	}
 
-// Equality checks
-#define EXPECT_TRUE(expr) { \
+// Checks
+#define EXPECT_TRUE_BASE(expr, fatal) { \
 		if (!(expr)) { \
-			std::cerr << FAILED #expr << std::endl; \
-			++num_failing_tests_; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr << std::endl; \
+			num_failing_tests_ += fatal; \
 		} else { \
 			std::cerr << PASSED #expr << std::endl; \
 		} \
 	}
 
-#define EXPECT_EQUAL(expr, expected) { \
+#define EXPECT_EQUAL_BASE(expr, expected, fatal) { \
 		auto result = (expr); \
 		if (result != expected) { \
-			std::cerr << FAILED \
+			std::cerr << (fatal ? FAILED : WARNING) << \
 				#expr " returned " << QuoteHelper(result) << ", " \
 				"while expected " << QuoteHelper((decltype(result))expected) << std::endl; \
-			++num_failing_tests_; \
+			num_failing_tests_ += fatal; \
 		} else { \
 			std::cerr << PASSED \
 				#expr " == " << QuoteHelper((decltype(result))expected) << std::endl; \
 		} \
 	}
 
-#define EXPECT_IN_RANGE(expr, from, to) { \
+#define EXPECT_IN_RANGE_BASE(expr, from, to, fatal) { \
 		auto result = (expr); \
 		if (from <= result && result <= to) { \
 			std::cerr << PASSED \
@@ -117,18 +119,17 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 					QuoteHelper((decltype(result))to) << \
 				"] as expected" << std::endl; \
 		} else { \
-			std::cerr << FAILED \
+			std::cerr << (fatal ? FAILED : WARNING) << \
 				#expr " returned " << QuoteHelper(result) << ", " \
 				"which is out of expected range [" << \
 					QuoteHelper((decltype(result))from) << ", " << \
 					QuoteHelper((decltype(result))to) << \
 				"]" << std::endl; \
-			++num_failing_tests_; \
+			num_failing_tests_ += fatal; \
 		} \
 	}
 
-// Exception checks
-#define EXPECT_EXCEPTION(expr, exception) { \
+#define EXPECT_EXCEPTION_BASE(expr, exception, fatal) { \
 		bool correct_catch = false; \
 		try { \
 			expr; \
@@ -139,12 +140,12 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 		if (correct_catch) { \
 			std::cerr << PASSED #expr " has thrown " #exception << " as expected " << std::endl; \
 		} else { \
-			std::cerr << FAILED #expr " hasn't thrown expected " #exception << std::endl; \
-			++num_failing_tests_; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr " hasn't thrown expected " #exception << std::endl; \
+			num_failing_tests_ += fatal; \
 		} \
 	}
 
-#define EXPECT_NO_EXCEPTION(expr) { \
+#define EXPECT_NO_EXCEPTION_BASE(expr, fatal) { \
 		bool had_exception = false; \
 		const char* what = NULL; \
 		try { \
@@ -156,14 +157,26 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 			had_exception = true; \
 		} \
 		if (had_exception && what) { \
-			std::cerr << FAILED #expr << " has thrown unexpected exception derived from std::exception, what() returned \"" << what << "\"" << std::endl; \
-			++num_failing_tests_; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr << " has thrown unexpected exception derived from std::exception, what() returned \"" << what << "\"" << std::endl; \
+			num_failing_tests_ += fatal; \
 		} else if (had_exception) { \
-			std::cerr << FAILED #expr << " has thrown unexpected exception not derived from std::exception" << std::endl; \
-			++num_failing_tests_; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr << " has thrown unexpected exception not derived from std::exception" << std::endl; \
+			num_failing_tests_ += fatal; \
 		} else { \
 			std::cerr << PASSED #expr << " hasn't thrown any exceptions as expected" << std::endl; \
 		} \
 	}
+
+// Check shortcuts
+#define EXPECT_TRUE(expr) EXPECT_TRUE_BASE(expr, 1)
+#define EXPECT_TRUE_WARN(expr) EXPECT_TRUE_BASE(expr, 0)
+#define EXPECT_EQUAL(expr, expected) EXPECT_EQUAL_BASE(expr, expected, 1)
+#define EXPECT_EQUAL_WARN(expr, expected) EXPECT_EQUAL_BASE(expr, expected, 0)
+#define EXPECT_IN_RANGE(expr, from, to) EXPECT_IN_RANGE_BASE(expr, from, to, 1)
+#define EXPECT_IN_RANGE_WARN(expr, from, to) EXPECT_IN_RANGE_BASE(expr, from, to, 0)
+#define EXPECT_EXCEPTION(expr, exception) EXPECT_EXCEPTION_BASE(expr, exception, 1)
+#define EXPECT_EXCEPTION_WARN(expr, exception) EXPECT_EXCEPTION_BASE(expr, exception, 0)
+#define EXPECT_NO_EXCEPTION(expr) EXPECT_NO_EXCEPTION_BASE(expr, 1)
+#define EXPECT_NO_EXCEPTION_WARN(expr) EXPECT_NO_EXCEPTION_BASE(expr, 0)
 
 #endif // TESTING_H_INCLUDED

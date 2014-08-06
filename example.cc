@@ -32,6 +32,9 @@ BEGIN_TEST()
 	// Fails
 	EXPECT_TRUE(is_everything_ok_fails());
 
+	// Fails with warning
+	EXPECT_TRUE_WARN(is_everything_ok_fails());
+
 	// Passes
 	EXPECT_EQUAL(get_aaa(), "aaa");
 
