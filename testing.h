@@ -80,18 +80,8 @@
 		} \
 	}
 
-#define EXPECT_STRING(expr, expected) { \
-		std::string result = (expr); \
-		if (result != expected) { \
-			std::cerr << FAILED #expr " returned \"" << result << "\", while expected \"" << expected << "\"" << std::endl; \
-			++num_failing_tests_; \
-		} else { \
-			std::cerr << PASSED #expr " == \"" << expected << "\"" << std::endl; \
-		} \
-	}
-
-#define EXPECT_EQUAL(type, expr, expected) { \
-		type result = (expr); \
+#define EXPECT_EQUAL(expr, expected) { \
+		auto result = (expr); \
 		if (result != expected) { \
 			std::cerr << FAILED #expr " returned " << result << ", while expected " << expected << std::endl; \
 			++num_failing_tests_; \
@@ -100,9 +90,8 @@
 		} \
 	}
 
-// Range checks
-#define EXPECT_VALUE_IN_RANGE(type, expr, from, to) { \
-		type result = (expr); \
+#define EXPECT_IN_RANGE(expr, from, to) { \
+		auto result = (expr); \
 		if (from <= result && result <= to) { \
 			std::cerr << PASSED #expr " returned " << result << ", which is in range [" << from << ", " << to << "] as expected" << std::endl; \
 		} else { \
@@ -110,10 +99,6 @@
 			++num_failing_tests_; \
 		} \
 	}
-
-// Shortcuts for above; feel free to ask to add more
-#define EXPECT_INT(expr, expected) EXPECT_EQUAL(int, expr, expected)
-#define EXPECT_FLOAT_IN_RANGE(expr, from, to) EXPECT_VALUE_IN_RANGE(float, expr, from, to)
 
 // Exception checks
 #define EXPECT_EXCEPTION(expr, exception) { \

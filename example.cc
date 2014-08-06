@@ -33,22 +33,22 @@ BEGIN_TEST()
 	EXPECT_TRUE(is_everything_ok_fails());
 
 	// Passes
-	EXPECT_STRING(get_aaa(), "aaa");
+	EXPECT_EQUAL(get_aaa(), "aaa");
 
 	// Fails
-	EXPECT_STRING(get_aaa_fails(), "aaa");
+	EXPECT_EQUAL(get_aaa_fails(), "aaa");
 
 	// Passes
-	EXPECT_INT(get_ten(), 10);
+	EXPECT_EQUAL(get_ten(), 10);
 
 	// Fails
-	EXPECT_INT(get_ten_fails(), 10);
+	EXPECT_EQUAL(get_ten_fails(), 10);
 
 	// Passes
-	EXPECT_FLOAT_IN_RANGE(get_pi(), 3.14f, 3.15f);
+	EXPECT_IN_RANGE(get_pi(), 3.14f, 3.15f);
 
 	// Fails
-	EXPECT_FLOAT_IN_RANGE(get_pi_fails(), 3.14f, 3.15f);
+	EXPECT_IN_RANGE(get_pi_fails(), 3.14f, 3.15f);
 
 	// Passes
 	EXPECT_EXCEPTION(throw_something(), std::runtime_error);
