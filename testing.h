@@ -64,6 +64,13 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 	return std::string("\"") + value + std::string("\"");
 }
 
+std::string DescrHelper(const std::string& descr) {
+	if (descr == "")
+		return "";
+
+	return std::string(" (") + descr + std::string(")");
+}
+
 // Test begin/end
 #define BEGIN_TEST(...) \
 	int main(__VA_ARGS__) { \
@@ -87,29 +94,29 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 	}
 
 // Checks
-#define EXPECT_TRUE_BASE(expr, fatal) { \
+#define EXPECT_TRUE_BASE(expr, descr, fatal) { \
 		if (!(expr)) { \
-			std::cerr << (fatal ? FAILED : WARNING) << #expr << std::endl; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr << DescrHelper(descr) << std::endl; \
 			num_failing_tests_ += fatal; \
 		} else { \
-			std::cerr << PASSED #expr << std::endl; \
+			std::cerr << PASSED #expr << DescrHelper(descr) << std::endl; \
 		} \
 	}
 
-#define EXPECT_EQUAL_BASE(expr, expected, fatal) { \
+#define EXPECT_EQUAL_BASE(expr, expected, descr, fatal) { \
 		auto result = (expr); \
 		if (result != expected) { \
 			std::cerr << (fatal ? FAILED : WARNING) << \
 				#expr " returned " << QuoteHelper(result) << ", " \
-				"while expected " << QuoteHelper((decltype(result))expected) << std::endl; \
+				"while expected " << QuoteHelper((decltype(result))expected) << DescrHelper(descr) << std::endl; \
 			num_failing_tests_ += fatal; \
 		} else { \
 			std::cerr << PASSED \
-				#expr " == " << QuoteHelper((decltype(result))expected) << std::endl; \
+				#expr " == " << QuoteHelper((decltype(result))expected) << DescrHelper(descr) << std::endl; \
 		} \
 	}
 
-#define EXPECT_IN_RANGE_BASE(expr, from, to, fatal) { \
+#define EXPECT_IN_RANGE_BASE(expr, from, to, descr, fatal) { \
 		auto result = (expr); \
 		if (from <= result && result <= to) { \
 			std::cerr << PASSED \
@@ -117,19 +124,19 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 				"which is in range [" << \
 					QuoteHelper((decltype(result))from) << ", " << \
 					QuoteHelper((decltype(result))to) << \
-				"] as expected" << std::endl; \
+				"] as expected" << DescrHelper(descr) << std::endl; \
 		} else { \
 			std::cerr << (fatal ? FAILED : WARNING) << \
 				#expr " returned " << QuoteHelper(result) << ", " \
 				"which is out of expected range [" << \
 					QuoteHelper((decltype(result))from) << ", " << \
 					QuoteHelper((decltype(result))to) << \
-				"]" << std::endl; \
+				"]" << DescrHelper(descr) << std::endl; \
 			num_failing_tests_ += fatal; \
 		} \
 	}
 
-#define EXPECT_EXCEPTION_BASE(expr, exception, fatal) { \
+#define EXPECT_EXCEPTION_BASE(expr, exception, descr, fatal) { \
 		bool correct_catch = false; \
 		try { \
 			expr; \
@@ -138,14 +145,14 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 		} catch (...) { \
 		} \
 		if (correct_catch) { \
-			std::cerr << PASSED #expr " has thrown " #exception << " as expected " << std::endl; \
+			std::cerr << PASSED #expr " has thrown " #exception << " as expected " << DescrHelper(descr) << std::endl; \
 		} else { \
-			std::cerr << (fatal ? FAILED : WARNING) << #expr " hasn't thrown expected " #exception << std::endl; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr " hasn't thrown expected " #exception << DescrHelper(descr) << std::endl; \
 			num_failing_tests_ += fatal; \
 		} \
 	}
 
-#define EXPECT_NO_EXCEPTION_BASE(expr, fatal) { \
+#define EXPECT_NO_EXCEPTION_BASE(expr, descr, fatal) { \
 		bool had_exception = false; \
 		const char* what = NULL; \
 		try { \
@@ -157,26 +164,36 @@ std::string QuoteHelper<std::string>(const std::string& value) {
 			had_exception = true; \
 		} \
 		if (had_exception && what) { \
-			std::cerr << (fatal ? FAILED : WARNING) << #expr << " has thrown unexpected exception derived from std::exception, what() returned \"" << what << "\"" << std::endl; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr << " has thrown unexpected exception derived from std::exception, what() returned \"" << what << "\"" << DescrHelper(descr) << std::endl; \
 			num_failing_tests_ += fatal; \
 		} else if (had_exception) { \
-			std::cerr << (fatal ? FAILED : WARNING) << #expr << " has thrown unexpected exception not derived from std::exception" << std::endl; \
+			std::cerr << (fatal ? FAILED : WARNING) << #expr << " has thrown unexpected exception not derived from std::exception" << DescrHelper(descr) << std::endl; \
 			num_failing_tests_ += fatal; \
 		} else { \
-			std::cerr << PASSED #expr << " hasn't thrown any exceptions as expected" << std::endl; \
+			std::cerr << PASSED #expr << " hasn't thrown any exceptions as expected" << DescrHelper(descr) << std::endl; \
 		} \
 	}
 
 // Check shortcuts
-#define EXPECT_TRUE(expr) EXPECT_TRUE_BASE(expr, 1)
-#define EXPECT_TRUE_WARN(expr) EXPECT_TRUE_BASE(expr, 0)
-#define EXPECT_EQUAL(expr, expected) EXPECT_EQUAL_BASE(expr, expected, 1)
-#define EXPECT_EQUAL_WARN(expr, expected) EXPECT_EQUAL_BASE(expr, expected, 0)
-#define EXPECT_IN_RANGE(expr, from, to) EXPECT_IN_RANGE_BASE(expr, from, to, 1)
-#define EXPECT_IN_RANGE_WARN(expr, from, to) EXPECT_IN_RANGE_BASE(expr, from, to, 0)
-#define EXPECT_EXCEPTION(expr, exception) EXPECT_EXCEPTION_BASE(expr, exception, 1)
-#define EXPECT_EXCEPTION_WARN(expr, exception) EXPECT_EXCEPTION_BASE(expr, exception, 0)
-#define EXPECT_NO_EXCEPTION(expr) EXPECT_NO_EXCEPTION_BASE(expr, 1)
-#define EXPECT_NO_EXCEPTION_WARN(expr) EXPECT_NO_EXCEPTION_BASE(expr, 0)
+#define EXPECT_TRUE(expr) EXPECT_TRUE_BASE(expr, "", 1)
+#define EXPECT_TRUE_DESCR(expr, descr) EXPECT_TRUE_BASE(expr, descr, 1)
+#define EXPECT_TRUE_WARN(expr) EXPECT_TRUE_BASE(expr, "", 0)
+#define EXPECT_TRUE_DESCR_WARN(expr, descr) EXPECT_TRUE_BASE(expr, descr, 0)
+#define EXPECT_EQUAL(expr, expected) EXPECT_EQUAL_BASE(expr, expected, "", 1)
+#define EXPECT_EQUAL_DESCR(expr, expected, descr) EXPECT_EQUAL_BASE(expr, expected, descr, 1)
+#define EXPECT_EQUAL_WARN(expr, expected) EXPECT_EQUAL_BASE(expr, expected, "", 0)
+#define EXPECT_EQUAL_DESCR_WARN(expr, expected, descr) EXPECT_EQUAL_BASE(expr, expected, descr, 0)
+#define EXPECT_IN_RANGE(expr, from, to) EXPECT_IN_RANGE_BASE(expr, from, to, "", 1)
+#define EXPECT_IN_RANGE_DESCR(expr, from, to, descr) EXPECT_IN_RANGE_BASE(expr, from, to, descr, 1)
+#define EXPECT_IN_RANGE_WARN(expr, from, to) EXPECT_IN_RANGE_BASE(expr, from, to, "", 0)
+#define EXPECT_IN_RANGE_DESCR_WARN(expr, from, to, descr) EXPECT_IN_RANGE_BASE(expr, from, to, descr, 0)
+#define EXPECT_EXCEPTION(expr, exception) EXPECT_EXCEPTION_BASE(expr, exception, "", 1)
+#define EXPECT_EXCEPTION_DESCR(expr, exception, descr) EXPECT_EXCEPTION_BASE(expr, exception, descr, 1)
+#define EXPECT_EXCEPTION_WARN(expr, exception) EXPECT_EXCEPTION_BASE(expr, exception, "", 0)
+#define EXPECT_EXCEPTION_DESCR_WARN(expr, exception, descr) EXPECT_EXCEPTION_BASE(expr, exception, descr, 0)
+#define EXPECT_NO_EXCEPTION(expr) EXPECT_NO_EXCEPTION_BASE(expr, "", 1)
+#define EXPECT_NO_EXCEPTION_DESCR(expr, descr) EXPECT_NO_EXCEPTION_BASE(expr, descr, 1)
+#define EXPECT_NO_EXCEPTION_WARN(expr) EXPECT_NO_EXCEPTION_BASE(expr, "", 0)
+#define EXPECT_NO_EXCEPTION_DESCR_WARN(expr, descr) EXPECT_NO_EXCEPTION_BASE(expr, descr, 0)
 
 #endif // TESTING_H_INCLUDED

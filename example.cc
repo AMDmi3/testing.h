@@ -29,6 +29,9 @@ BEGIN_TEST()
 	// Passes
 	EXPECT_TRUE(is_everything_ok());
 
+	// Passes, with description
+	EXPECT_TRUE_DESCR(is_everything_ok(), "is_everything_ok() should return true");
+
 	// Fails
 	EXPECT_TRUE(is_everything_ok_fails());
 
