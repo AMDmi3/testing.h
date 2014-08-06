@@ -54,19 +54,16 @@
 		int num_failing_tests_ = 0; \
 		try {
 
-#define BEGIN_EXTRA_EXCEPTION(exception) \
-		} catch(exception) {
-
-#define END_EXTRA_EXCEPTION() \
-			num_failing_tests_++; \
-		}
+#define HANDLE_EXTRA_EXCEPTION(exception) \
+		} catch(exception) { \
+			num_failing_tests_++;
 
 #define END_TEST() \
 		} catch(std::exception& e) { \
-			std::cerr << "exception occured during the test: " << e.what() << std::endl; \
+			std::cerr << "unexpected exception was thrown during the test: " << e.what() << std::endl; \
 			num_failing_tests_++; \
 		} catch (...) { \
-			std::cerr << "unknown exception occured during the test" << std::endl; \
+			std::cerr << "unexpected exception was thrown during the test" << std::endl; \
 			num_failing_tests_++; \
 		} \
 		if (num_failing_tests_ > 0) \
