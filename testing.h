@@ -32,6 +32,8 @@
 
 #include <iostream>
 #include <exception>
+#include <string>
+#include <sstream>
 
 // Define NO_TEST_COLOR before including testing.h to disable colors
 #ifndef NO_TEST_COLOR
@@ -47,6 +49,18 @@
 #	define PASSED "PASSED: "
 #	define FAILED "FAILED: "
 #endif
+
+template<class T>
+std::string QuoteHelper(const T& value) {
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
+}
+
+template<>
+std::string QuoteHelper<std::string>(const std::string& value) {
+	return std::string("\"") + value + std::string("\"");
+}
 
 // Test begin/end
 #define BEGIN_TEST(...) \
@@ -83,19 +97,32 @@
 #define EXPECT_EQUAL(expr, expected) { \
 		auto result = (expr); \
 		if (result != expected) { \
-			std::cerr << FAILED #expr " returned " << result << ", while expected " << expected << std::endl; \
+			std::cerr << FAILED \
+				#expr " returned " << QuoteHelper(result) << ", " \
+				"while expected " << QuoteHelper((decltype(result))expected) << std::endl; \
 			++num_failing_tests_; \
 		} else { \
-			std::cerr << PASSED #expr " == " << expected << std::endl; \
+			std::cerr << PASSED \
+				#expr " == " << QuoteHelper((decltype(result))expected) << std::endl; \
 		} \
 	}
 
 #define EXPECT_IN_RANGE(expr, from, to) { \
 		auto result = (expr); \
 		if (from <= result && result <= to) { \
-			std::cerr << PASSED #expr " returned " << result << ", which is in range [" << from << ", " << to << "] as expected" << std::endl; \
+			std::cerr << PASSED \
+				#expr " returned " << QuoteHelper(result) << ", " \
+				"which is in range [" << \
+					QuoteHelper((decltype(result))from) << ", " << \
+					QuoteHelper((decltype(result))to) << \
+				"] as expected" << std::endl; \
 		} else { \
-			std::cerr << FAILED #expr " returned " << result << ", which is out of expected range [" << from << ", " << to << "]" << std::endl; \
+			std::cerr << FAILED \
+				#expr " returned " << QuoteHelper(result) << ", " \
+				"which is out of expected range [" << \
+					QuoteHelper((decltype(result))from) << ", " << \
+					QuoteHelper((decltype(result))to) << \
+				"]" << std::endl; \
 			++num_failing_tests_; \
 		} \
 	}
