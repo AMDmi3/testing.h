@@ -43,13 +43,13 @@
 #define TEST_ESCAPE "\033"
 
 #ifdef TEST_COLOR
-#	define  PASSED TEST_ESCAPE "[0;32m PASSED:" TEST_ESCAPE "[0m "
-#	define WARNING TEST_ESCAPE "[1;33mWARNING:" TEST_ESCAPE "[0m "
-#	define  FAILED TEST_ESCAPE "[1;31m FAILED:" TEST_ESCAPE "[0m "
+#	define  PASSED TEST_ESCAPE "[0;32mPASS:" TEST_ESCAPE "[0m "
+#	define WARNING TEST_ESCAPE "[1;33mWARN:" TEST_ESCAPE "[0m "
+#	define  FAILED TEST_ESCAPE "[1;31mFAIL:" TEST_ESCAPE "[0m "
 #else
-#	define  PASSED " PASSED: "
-#	define WARNING "WARNING: "
-#	define  FAILED " FAILED: "
+#	define  PASSED "PASS: "
+#	define WARNING "WARN: "
+#	define  FAILED "FAIL: "
 #endif
 
 template<class T>
