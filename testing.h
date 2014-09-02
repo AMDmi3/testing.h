@@ -34,6 +34,7 @@
 #include <exception>
 #include <string>
 #include <sstream>
+#include <functional>
 
 //
 // Helper class for literal quoting / extra processing
