@@ -18,6 +18,7 @@ your source tree.
 
 BEGIN_TEST()
     EXPECT_TRUE(MyFunc() == "foo");
+    EXPECT_EQUAL(GetSomeStr(), "ExpectedString");
     EXPECT_EXCEPTION(MyFunc(), std::runtime_error);
 END_TEST()
 ```
@@ -26,7 +27,7 @@ Possible output:
 
 ```
 PASS: MyFunc() == "foo"
-FAIL: MyFunc() returned "foo" while expected "bar"
+FAIL: MyFunc() returned "UnexpectedString" while expected "ExpectedString"
 FAIL: MyFunc() hasn't thrown expected exception std::runtime_error
 ```
 
