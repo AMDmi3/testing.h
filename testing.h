@@ -319,7 +319,6 @@ public:
 
 // wrappers to allow true variable number of arguments
 #define METHOD_WRAPPER(method, expr, ...) tester_.method(#expr, expr, __VA_ARGS__)
-#define METHOD_WRAPPER_LAMBDA(method, expr, ...) tester_.method(#expr, [&](){return expr;}, __VA_ARGS__)
 #define METHOD_WRAPPER_EXCEPTION(expr, exception, ...) tester_.ExpectException<exception>(#expr, [&](){expr;}, #exception, __VA_ARGS__)
 
 // checks
