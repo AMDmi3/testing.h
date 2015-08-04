@@ -205,7 +205,7 @@ public:
 
 		try {
 			func();
-		} catch (E& e) {
+		} catch (E&) {
 			as_expected = true;
 			thrown = true;
 		} catch (std::exception& e) {
