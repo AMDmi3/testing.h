@@ -39,7 +39,7 @@ std::string return_aaa() { return "aaa"; }
 
 int return_10() { return 10; }
 
-float return_pi() { return 3.141592654; }
+float return_pi() { return 3.141592654f; }
 
 void throw_runtime_error() { throw std::runtime_error("hello, I'm std::runtime_error"); }
 void throw_42() { throw 42; }
