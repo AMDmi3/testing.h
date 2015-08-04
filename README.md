@@ -42,3 +42,7 @@ may compile and run the demo by calling ```make```.
 ## Author ##
 
 Dmitry Marakasov <amdmi3@amdmi3.ru>
+
+## Contributors ##
+
+* [Vladimir Gamalian](https://github.com/vladimirgamalian)
