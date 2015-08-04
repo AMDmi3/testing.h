@@ -2,7 +2,9 @@ CXX?=		g++
 CXXFLAGS?=	#empty
 CXXFLAGS+=	-std=c++11 -Wall -Wextra -pedantic -Werror
 
-all: demo
+all: rundemo
+
+rundemo:
 	-./demo
 
 demo: demo.cc testing.h
