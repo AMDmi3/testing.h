@@ -1,0 +1,52 @@
+
+You may check boolean expressions:
+
+    [0;32mPASS: [0m[1;37mreturn_true()[0m
+    [1;31mFAIL: [0m[1;37mreturn_false()[0m
+
+Also you may check equality with arbitrary types (note clever quoting):
+
+    [0;32mPASS: [0m[1;37mreturn_aaa()[0m returned [1;35m"aaa"[0m as expected
+    [1;31mFAIL: [0m[1;37mreturn_aaa()[0m returned [1;35m"aaa"[0m while expected [1;35m"bbbb"[0m
+    [0;32mPASS: [0m[1;37mreturn_10()[0m returned [1;35m10[0m as expected
+    [1;31mFAIL: [0m[1;37mreturn_10()[0m returned [1;35m10[0m while expected [1;35m11[0m
+    [0;32mPASS: [0m[1;37mreturn_pi()[0m returned [1;35m3.14159[0m as expected
+    [1;31mFAIL: [0m[1;37mreturn_pi()[0m returned [1;35m3.14159[0m while expected [1;35m1.2345[0m
+
+You may also check for exceptions:
+
+    [0;32mPASS: [0m[1;37mthrow_runtime_error()[0m has thrown [1;37mstd::runtime_error[0m as expected
+    [1;31mFAIL: [0m[1;37mthrow_runtime_error()[0m has thrown unexpected exception derived from std::exception (what(): [1;35mhello, I'm std::runtime_error[0m), while expected [1;37mstd::logic_error[0m
+    [1;31mFAIL: [0m[1;37mthrow_42()[0m has thrown unexpected exception not derived from std::exception, while expected [1;37mstd::runtime_error[0m
+    [1;31mFAIL: [0m[1;37mthrow_nothing()[0m hasn't thrown expected exception [1;37mstd::logic_error[0m
+
+You may add custom descriptions for your checks:
+
+    [1;31mFAIL: [0m[1;37mreturn_false()[0m [1;34m// expression should be true for test to pass[0m
+
+...or replace standard messages with them:
+
+    [1;31mFAIL: [0mexpression should be true for test to pass
+
+You may mark a test as non-fatal. If it fails, it's not accounted for total number of failed tests:
+
+    [1;33mWARN: [0m[1;37mreturn_false()[0m
+
+You may permanently enable flags which control test behavior:
+
+    [1;31mFAIL: [0monly description is displayed
+    [1;33mWARN: [0mand all tests are non-fatal
+    [1;33mWARN: [0mthis goes on until flags are reset
+    [1;31mFAIL: [0m[1;37mfalse[0m [1;34m// back to default behavior[0m
+
+If an exception is thrown and it's not handled (e.g. by EXPECT_EXCEPTION or try/catch), the execution is stopped and no more tests are run. There are standard handlers for std::exception, but you may provide handlers for your own exceptions, for example to provide more diagnostic info...
+
+(exception is thrown)
+
+...like this: what() = "hello, I'm std::runtime_error"
+
+This concludes the demo.
+
+In the end, summary is shown:
+
+    11 failures out of 19 tests, and was terminated prematurely due to unexpected exception
