@@ -33,7 +33,7 @@ FAIL: MyFunc() hasn't thrown expected exception std::runtime_error
 
 ## Longer example ##
 
-See demo.cc, which demonstrates almost all framework abilities. You
+See [demo.cc](demo.cc), which demonstrates almost all framework abilities. You
 may compile and run the demo by calling ```make```.
 
 ## License ##
