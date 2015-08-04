@@ -36,6 +36,10 @@
 #include <sstream>
 #include <functional>
 
+#ifdef _WIN32
+#	define TESTING_NO_COLOR
+#endif
+
 //
 // Helper class for literal quoting / extra processing
 //
