@@ -319,9 +319,15 @@ public:
 #define METHOD_WRAPPER_EXCEPTION(expr, exception, ...) tester_.ExpectException<exception>(#expr, [&](){expr;}, #exception, __VA_ARGS__)
 
 // checks
-#define EXPECT_TRUE(...)      do { METHOD_WRAPPER(ExpectTrue, __VA_ARGS__, Tester::DummyArgument()); } while(0)
-#define EXPECT_EQUAL(...)     do { METHOD_WRAPPER(ExpectEqual, __VA_ARGS__, Tester::DummyArgument()); } while(0)
-#define EXPECT_EXCEPTION(...) do { METHOD_WRAPPER_EXCEPTION(__VA_ARGS__, Tester::DummyArgument()); } while(0)
+#ifdef _MSC_VER
+#	define EXPECT_TRUE(expr, ...)      do { tester_.ExpectTrue(#expr, expr, __VA_ARGS__, Tester::DummyArgument()); } while(0)
+#	define EXPECT_EQUAL(expr, ...)     do { tester_.ExpectEqual(#expr, expr, __VA_ARGS__, Tester::DummyArgument()); } while(0)
+#	define EXPECT_EXCEPTION(expr, exception, ...) do { tester_.ExpectException<exception>(#expr, [&](){expr;}, #exception, __VA_ARGS__, Tester::DummyArgument()); } while(0)
+#else
+#	define EXPECT_TRUE(...)      do { METHOD_WRAPPER(ExpectTrue, __VA_ARGS__, Tester::DummyArgument()); } while(0)
+#	define EXPECT_EQUAL(...)     do { METHOD_WRAPPER(ExpectEqual, __VA_ARGS__, Tester::DummyArgument()); } while(0)
+#	define EXPECT_EXCEPTION(...) do { METHOD_WRAPPER_EXCEPTION(__VA_ARGS__, Tester::DummyArgument()); } while(0)
+#endif
 
 // functions
 #define ENABLE_FLAGS(flags) do { tester_.EnableFlags(flags); } while(0)
