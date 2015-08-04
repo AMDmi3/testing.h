@@ -39,7 +39,7 @@ std::string return_aaa() { return "aaa"; }
 
 int return_10() { return 10; }
 
-float return_pi() { return 3.141592654; }
+float return_pi() { return 3.141592654f; }
 
 void throw_runtime_error() { throw std::runtime_error("hello, I'm std::runtime_error"); }
 void throw_42() { throw 42; }
@@ -93,10 +93,10 @@ BEGIN_TEST()
 	std::cerr << std::endl << "...or replace standard messages with them:" << std::endl << std::endl << "    ";
 	EXPECT_TRUE(return_false(), "expression should be true for test to pass", HIDE_MESSAGE);
 
-	std::cerr << std::endl << "You may mark a test as non-fatal. If it fails, it's not accoounted for total number of failed tests:" << std::endl << std::endl << "    ";
+	std::cerr << std::endl << "You may mark a test as non-fatal. If it fails, it's not accounted for total number of failed tests:" << std::endl << std::endl << "    ";
 	EXPECT_TRUE(return_false(), NON_FATAL);
 
-	std::cerr << std::endl << "You may permanently enable flags which control test bahavior:" << std::endl << std::endl << "    ";
+	std::cerr << std::endl << "You may permanently enable flags which control test behavior:" << std::endl << std::endl << "    ";
 	ENABLE_FLAGS(HIDE_MESSAGE);
 	EXPECT_TRUE(false, "only description is displayed");
 

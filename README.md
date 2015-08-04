@@ -18,7 +18,6 @@ your source tree.
 
 BEGIN_TEST()
     EXPECT_TRUE(MyFunc() == "foo");
-    EXPECT_STRING(MyFunc(), "foo");
     EXPECT_EXCEPTION(MyFunc(), std::runtime_error);
 END_TEST()
 ```
