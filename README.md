@@ -38,7 +38,7 @@ may compile and run the demo by calling ```make```.
 
 ## License ##
 
-2-clause BSD, see COPYING or source files.
+2-clause BSD, see [COPYING](COPYING) or source files.
 
 ## Author ##
 
