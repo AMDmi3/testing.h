@@ -126,7 +126,7 @@ private:
 		}
 
 		std::ostringstream ss;
-		ss << "\033[" << bright << ';' << (30 + color) << 'm' << str << "\033[0m";
+		ss << "\033[" << (bright ? '1' : '0') << ';' << (30 + color) << 'm' << str << "\033[0m";
 		return ss.str();
 	}
 
