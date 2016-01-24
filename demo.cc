@@ -86,6 +86,13 @@ BEGIN_TEST()
 	std::cerr << "    ";
 	EXPECT_EXCEPTION(throw_nothing(), std::logic_error);
 
+	// EXPECT_NO_EXCEPTION examples
+	std::cerr << std::endl << "Any you may check for absence of exceptions:" << std::endl << std::endl << "    ";
+	EXPECT_NO_EXCEPTION(throw_runtime_error());
+
+	std::cerr << "    ";
+	EXPECT_NO_EXCEPTION(throw_nothing());
+
 	// examples of tuning
 	std::cerr << std::endl << "You may add custom descriptions for your checks:" << std::endl << std::endl << "    ";
 	EXPECT_TRUE(return_false(), "expression should be true for test to pass");

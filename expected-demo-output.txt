@@ -20,6 +20,11 @@ You may also check for exceptions:
     [1;31mFAIL: [0m[1;37mthrow_42()[0m has thrown unexpected exception not derived from std::exception, while expected [1;37mstd::runtime_error[0m
     [1;31mFAIL: [0m[1;37mthrow_nothing()[0m hasn't thrown expected exception [1;37mstd::logic_error[0m
 
+Any you may check for absence of exceptions:
+
+    [1;31mFAIL: [0m[1;37mthrow_runtime_error()[0m has thrown unexpected exception derived from std::exception (what(): [1;35mhello, I'm std::runtime_error[0m)
+    [0;32mPASS: [0m[1;37mthrow_nothing()[0m hasn't thrown any exceptions as expected
+
 You may add custom descriptions for your checks:
 
     [1;31mFAIL: [0m[1;37mreturn_false()[0m [1;34m// expression should be true for test to pass[0m
@@ -49,4 +54,4 @@ This concludes the demo.
 
 In the end, summary is shown:
 
-    11 failure(s) out of 19 tests, and was terminated prematurely due to unexpected exception
+    12 failure(s) out of 21 tests, and was terminated prematurely due to unexpected exception
