@@ -9,7 +9,12 @@ rundemo: demo
 
 checkdemo: demo
 	./demo > actual-demo-output.txt 2>&1 || true
-	diff -u actual-demo-output.txt expected-demo-output.txt || (echo "Demo output differs from excepted"; false)
+	@if diff -u actual-demo-output.txt expected-demo-output.txt; then \
+		echo "Demo output matches excepted"; \
+	else \
+		echo "Demo output differs from excepted"; \
+		false; \
+	fi
 
 updatedemo: demo
 	./demo > expected-demo-output.txt 2>&1 || true
