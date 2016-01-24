@@ -284,7 +284,7 @@ public:
 	}
 
 	void PrintSummary() {
-		std::cerr << num_failures_ << " failures out of " << num_tests_ << " tests";
+		std::cerr << num_failures_ << " failure(s) out of " << num_tests_ << " tests";
 		if (unexpected_exception_)
 			std::cerr << ", and was terminated prematurely due to unexpected exception";
 		std::cerr << "\n";

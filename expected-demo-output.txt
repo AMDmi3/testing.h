@@ -49,4 +49,4 @@ This concludes the demo.
 
 In the end, summary is shown:
 
-    11 failures out of 19 tests, and was terminated prematurely due to unexpected exception
+    11 failure(s) out of 19 tests, and was terminated prematurely due to unexpected exception
