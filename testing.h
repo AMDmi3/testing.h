@@ -381,7 +381,9 @@ public:
 #define RESET_FLAGS() do { tester_.ResetFlags(); } while(0)
 
 // flags
-using Tester::Flags::NON_FATAL;
-using Tester::Flags::HIDE_MESSAGE;
+enum {
+	NON_FATAL = Tester::Flags::NON_FATAL,
+	HIDE_MESSAGE = Tester::Flags::HIDE_MESSAGE
+};
 
 #endif // TESTING_H_INCLUDED
