@@ -121,8 +121,6 @@ private:
 		case LITERAL:     bright =  true; color = 5; break;
 		case EXPRESSION:  bright =  true; color = 7; break;
 		case DESCRIPTION: bright =  true; color = 4; break;
-		default:
-			return str;
 		}
 
 		std::ostringstream ss;
