@@ -1,6 +1,7 @@
 CXX?=		g++
 CXXFLAGS?=	#empty
 CXXFLAGS+=	-std=c++11 -Wall -Wextra -pedantic -Werror
+#CXXFLAGS+=	-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-float-equal -Wno-padded
 
 all: rundemo
 
