@@ -31,6 +31,8 @@
 
 #include "testing.h"
 
+namespace {
+
 // Functions to test
 bool return_true() { return true; }
 bool return_false() { return false; }
@@ -41,9 +43,11 @@ int return_10() { return 10; }
 
 float return_pi() { return 3.141592654f; }
 
-void throw_runtime_error() { throw std::runtime_error("hello, I'm std::runtime_error"); }
-void throw_42() { throw 42; }
+[[ noreturn ]] void throw_runtime_error() { throw std::runtime_error("hello, I'm std::runtime_error"); }
+[[ noreturn ]] void throw_42() { throw 42; }
 void throw_nothing() { }
+
+}
 
 // This is equivalent to main()
 BEGIN_TEST()
